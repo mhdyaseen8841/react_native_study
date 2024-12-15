@@ -29,12 +29,19 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme != 'dark' ? DefaultTheme : DefaultTheme}>
       <StatusBar style="auto" />
-      <Slot/>
-      <View style={styles.container}>
-     <Text>Hi</Text>
-      </View>
+      {/* <View >
+     <Text>Header</Text>
+      </View> */}
+      <Stack>
+      <Stack.Screen name="index" options={{headerShown:true}}/>
+      <Stack.Screen name="about" options={{headerShown:true}}/>
+      </Stack>
+
+      {/* <View >
+     <Text>Footer</Text>
+      </View> */}
     </ThemeProvider>
   );
 }
