@@ -1,14 +1,18 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack,Slot } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-import "../global.css"
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { StyleSheet } from 'react-native';
-
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import { Stack, Slot } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
+import "react-native-reanimated";
+import "../global.css";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { StyleSheet } from "react-native";
+import GlobalProvider from "../context/GlobalProvider";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -27,39 +31,39 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if(error) throw error
+    if (error) throw error;
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded,error]);
+  }, [fontsLoaded, error]);
 
   if (!fontsLoaded && !error) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme != 'dark' ? DefaultTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme == "dark" ? DefaultTheme : DefaultTheme}>
       <StatusBar style="auto" />
-      {/* <View >
-     <Text>Header</Text>
-      </View> */}
-      <Stack>
-      <Stack.Screen name="index" options={{headerShown:true}}/>
-      <Stack.Screen name="about" options={{headerShown:true}}/>
-      </Stack>
+      <GlobalProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
 
-      {/* <View >
-     <Text>Footer</Text>
-      </View> */}
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+          {/* <Stack.Screen name="/search/[query]" options={{headerShown:false}}/> */}
+        </Stack>
+      </GlobalProvider>
     </ThemeProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    display: "flex",
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

@@ -9,18 +9,21 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "package": "com.selfhexameta.aora"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-small.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "package": "com.selfhexameta.aora"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/logo-small.png"
+      "favicon": "./assets/images/logo-small.png",
+      "package": "com.selfhexameta.aora"
     },
     "plugins": [
       "expo-router",
