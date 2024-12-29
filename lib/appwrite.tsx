@@ -119,13 +119,12 @@ export const getAllPosts = async () => {
   }
 };
 
-
 export const getTrendingPosts = async () => {
   try {
     const posts = await databases.listDocuments(
       config.databaseId,
       config.videoCollectionId,
-      [Query.orderDesc('$createdAt'), Query.limit(7)]
+      [Query.orderDesc("$createdAt"), Query.limit(7)]
     );
 
     return posts.documents;
@@ -135,3 +134,37 @@ export const getTrendingPosts = async () => {
   }
 };
 
+// Get video posts that matches search query
+export async function searchPosts(query: any) {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.search("title", query)]
+    );
+
+    if (!posts) throw new Error("Something went wrong");
+
+    return posts.documents;
+  } catch (err) {
+    console.error("Error in getPosts:", err);
+    throw new Error((err as Error)?.message || "An unexpected error occurred");
+  }
+}
+
+
+// Get video posts created by user
+export async function getUserPosts(userId:any) {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.equal("creator", userId)]
+    );
+
+    return posts.documents;
+  } catch (err) {
+    console.error("Error in getPosts:", err);
+    throw new Error((err as Error)?.message || "An unexpected error occurred");
+  }
+}

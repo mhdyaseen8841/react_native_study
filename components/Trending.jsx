@@ -1,13 +1,15 @@
-import React, { useState, useCallback } from "react";
-import { ResizeMode, Video } from "expo-av";
-
+import React, { useState, useCallback, useRef } from "react";
+// import { ResizeMode, Video } from "expo-av";
+import Video, {VideoRef} from 'react-native-video';
 
 import * as Animatable from "react-native-animatable";
 import {
   FlatList,
   Image,
   ImageBackground,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 
 import { icons } from "../constants";
@@ -32,26 +34,32 @@ const zoomOut = {
 
 const TrendingItem = ({ activeItem, item }) => {
   const [play, setPlay] = useState(false);
-
+  const videoRef = useRef<VideoRef>(null);
   return (
     <Animatable.View
       className="mr-5"
       animation={activeItem === item.$id ? zoomIn : zoomOut}
       duration={500}
     >
-      {play ? (
+      {play ? ( 
+        <>
+        <Text>
+          Video below
+        </Text>
+        <View  style={{ width: "200px", height: "300px", borderRadius: 20 }}>
+
         <Video
-          source={{ uri: item.video }}
-          className="w-52 h-72 rounded-[33px] mt-3 bg-white/10"
-          resizeMode={ResizeMode.CONTAIN}
-          useNativeControls
-          shouldPlay
-          onPlaybackStatusUpdate={(status) => {
-            if (status.didJustFinish) {
-              setPlay(false);
-            }
-          }}
+        // ref={videoRef}
+        source={{ uri:  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" }}  // Video source
+        style={{ width: "200px", height: "300px", borderRadius: 20 }}  // Styling
+        resizeMode="contain"  // Correct resizeMode usage
+        controls
+        
+    // Callback when video cannot be loaded              
+         
         />
+        </View>
+        </>
       ) : (
         <TouchableOpacity
           className="relative flex justify-center items-center"

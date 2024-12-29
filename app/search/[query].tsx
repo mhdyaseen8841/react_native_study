@@ -1,12 +1,67 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  RefreshControl,
+  Alert,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { images } from "../../constants";
+import SearchInput from "../../components/SearchInput";
+import Trending from "../../components/Trending";
+import EmptyState from "../../components/EmptyState";
+import { useGlobalContext } from "../../context/GlobalProvider";
+import { searchPosts } from "@/lib/appwrite";
+import useAppwrite from "@/lib/useAppwrite";
+import VideoCard from "@/components/VideoCard";
+import { useLocalSearchParams } from "expo-router";
 
 const Search = () => {
-  return (
-    <View>
-      <Text>[query]</Text>
-    </View>
-  )
-}
+  const { query } = useLocalSearchParams();
+  const { data: posts, refetch } = useAppwrite(() => searchPosts(query as any));
 
-export default Search
+  const context = useGlobalContext();
+
+  useEffect(() => {
+    refetch();
+  }, [query]);
+
+  return (
+    <SafeAreaView className="bg-primary h-full">
+      <FlatList
+        data={posts}
+        keyExtractor={(item) => item.$id}
+        renderItem={({ item }) => (
+          //<Text className="text-3xl text-white">{item.title}</Text>
+          <VideoCard video={item} />
+        )}
+        ListHeaderComponent={() => (
+          <View className="my-6 px-4">
+            <View>
+              <Text className="font-pmedium text-sm text-gray-100">
+                Search Results :
+              </Text>
+              <Text className="text-2xl text-white font-psemibold">
+                {query}
+              </Text>
+
+              <View className="mt-6 mb-8">
+                <SearchInput initialQuery={query as any} />
+              </View>
+            </View>
+          </View>
+        )}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title="No videos found"
+            description="No videos found for this search query"
+          />
+        )}
+      />
+    </SafeAreaView>
+  );
+};
+
+export default Search;

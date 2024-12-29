@@ -12,7 +12,7 @@ interface VideoType {
   title: string;
   thumbnail: string;
   video: string;
-  users: Users;
+  creator: Users;
 }
 
 interface VideoCardProps {
@@ -24,7 +24,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
     title,
     thumbnail,
     video: videoUrl,
-    users: { username, avatar },
+    creator: { username, avatar },
   } = video;
 
   const [play, setPlay] = useState(false)
