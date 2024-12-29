@@ -1,4 +1,11 @@
-import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
+import {
+  Account,
+  Avatars,
+  Client,
+  Databases,
+  ID,
+  Query,
+} from "react-native-appwrite";
 export const config = {
   endpoint: "https://cloud.appwrite.io/v1",
   platform: "com.selfhexameta.aora",
@@ -78,25 +85,53 @@ export async function signOutUser() {
 }
 
 export async function getCurrentUser() {
-try{
-  const currentAccount = await account.get();
-  
-  if(!currentAccount) throw Error;
- 
-  const currentUser = await databases.listDocuments(
-    config.databaseId,
-    config.userCollectionId,
-    [Query.equal('accountId', currentAccount.$id)]
-  )
+  try {
+    const currentAccount = await account.get();
 
-  if(!currentUser) throw Error;
+    if (!currentAccount) throw Error;
 
-  return currentUser.documents[0];
+    const currentUser = await databases.listDocuments(
+      config.databaseId,
+      config.userCollectionId,
+      [Query.equal("accountId", currentAccount.$id)]
+    );
 
-}catch(err){
-  console.error("Error in getUser:", err);
-  throw new Error((err as Error)?.message || "An unexpected error occurred");
+    if (!currentUser) throw Error;
+
+    return currentUser.documents[0];
+  } catch (err) {
+    console.error("Error in getUser:", err);
+    throw new Error((err as Error)?.message || "An unexpected error occurred");
+  }
 }
 
+export const getAllPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId
+    );
 
-}
+    return posts.documents;
+  } catch (err) {
+    console.error("Error in getPosts:", err);
+    throw new Error((err as Error)?.message || "An unexpected error occurred");
+  }
+};
+
+
+export const getTrendingPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.orderDesc('$createdAt'), Query.limit(7)]
+    );
+
+    return posts.documents;
+  } catch (err) {
+    console.error("Error in getPosts:", err);
+    throw new Error((err as Error)?.message || "An unexpected error occurred");
+  }
+};
+

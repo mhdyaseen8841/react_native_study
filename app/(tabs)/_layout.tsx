@@ -33,6 +33,7 @@ const TabsLayout = () => {
     <>
      <StatusBar backgroundColor="#161622" style="light" />
       <Tabs
+
         screenOptions={
           {
             // tabBarShowLabel:false
@@ -41,8 +42,9 @@ const TabsLayout = () => {
             tabBarStyle: {
               backgroundColor: '#161622',
               borderTopWidth: 1,
-              borderTopColor: '#232533',
-              height: 84
+              borderColor: '#232533',
+              height: 84,
+              paddingTop:5
             }
             
           }
