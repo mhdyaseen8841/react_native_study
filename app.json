@@ -1,39 +1,46 @@
 {
   "expo": {
-    "name": "my-app",
+    "name": "Aora",
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "package": "com.selfhexameta.aora"
+      "package": "com.selfhexameta.aora",
+      "splash": {
+        "backgroundColor": "#161622", 
+        "image": "./assets/images/logo.png", 
+        "resizeMode": "contain",  
+        "tabletImage": "./assets/images/logo.png" 
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-small.png",
-        "backgroundColor": "#ffffff",
-        "package": "com.selfhexameta.aora"
+        "backgroundColor": "#161622"  
+      },
+      "splash": {
+        "backgroundColor": "#161622", 
+        "image": "./assets/images/logo.png",  
+        "resizeMode": "contain"  
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/logo-small.png",
-      "package": "com.selfhexameta.aora"
+      "favicon": "./assets/images/logo-small.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo-small.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "image": "./assets/images/logo.png",  
+          "resizeMode": "contain",  
+          "backgroundColor": "#161622"
         }
       ],
       [

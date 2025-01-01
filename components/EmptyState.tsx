@@ -7,8 +7,10 @@ import { router } from 'expo-router';
 interface EmptyStateProps {
     title:string;
     description:string;
+    buttonTitle:string;
+    buttonAction: string;
 }
-const EmptyState: React.FC<EmptyStateProps> = ({title,description}) => {
+const EmptyState: React.FC<EmptyStateProps> = ({title,description,buttonTitle,buttonAction}) => {
   return (
     <View className='justify-center items-center px-4'>
       <Image source={images.empty} className="w-[270px] h-[215px]" resizeMode="contain"/>
@@ -21,8 +23,16 @@ const EmptyState: React.FC<EmptyStateProps> = ({title,description}) => {
                       </Text>
 
                       <CustomButton
-                      title="Create video"
-                      handlePress={()=>router.push('/create')}
+                      title={buttonTitle}
+                      handlePress={()=>{
+                        if(buttonAction==="/home"){
+                          router.push("/home")
+                        }else{
+                          router.push("/create")
+                        }
+                       
+                      
+                      }}
                       containerStyles='w-full my-5'
                       />
     </View>

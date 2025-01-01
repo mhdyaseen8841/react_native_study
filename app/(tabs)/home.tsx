@@ -19,7 +19,7 @@ import VideoCard from "@/components/VideoCard";
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
 
-  const { data: trending } = useAppwrite(getTrendingPosts);
+  const { data: trending,refetch:trendingFetch } = useAppwrite(getTrendingPosts);
 
   const context = useGlobalContext();
 
@@ -35,6 +35,7 @@ const Home = () => {
     setRefreshing(true);
     // fetch data
     await refetch();
+    await trendingFetch()
     setRefreshing(false);
   };
 
@@ -82,6 +83,8 @@ const Home = () => {
           <EmptyState
             title="No videos found"
             description="Be the first one to upload videos"
+            buttonTitle="Create video"
+            buttonAction="/create"
           />
         )}
         refreshControl={

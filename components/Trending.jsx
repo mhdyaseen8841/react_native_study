@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useRef } from "react";
-// import { ResizeMode, Video } from "expo-av";
-import Video, {VideoRef} from 'react-native-video';
-
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { StyleSheet, Button, TouchableWithoutFeedback } from "react-native";
+import { useVideoPlayer, VideoView } from "expo-video";
 import * as Animatable from "react-native-animatable";
 import {
   FlatList,
@@ -32,39 +31,46 @@ const zoomOut = {
   },
 };
 
-const TrendingItem = ({ activeItem, item }) => {
-  const [play, setPlay] = useState(false);
-  const videoRef = useRef<VideoRef>(null);
+
+const TrendingItem = ({ activeItem, item,  activeVideoId, setActiveVideoId  }) => {
+
+  const isPlaying = activeVideoId === item.$id;
+  const player = useVideoPlayer(item.video);
+
+  useEffect(() => {
+    if (isPlaying) {
+      player.play(); 
+    } else {
+      player.pause(); 
+    }
+  }, [isPlaying, player]);
+
+
   return (
+
     <Animatable.View
       className="mr-5"
       animation={activeItem === item.$id ? zoomIn : zoomOut}
       duration={500}
     >
-      {play ? ( 
+      {isPlaying  ? (
         <>
-        <Text>
-          Video below
-        </Text>
-        <View  style={{ width: "200px", height: "300px", borderRadius: 20 }}>
 
-        <Video
-        // ref={videoRef}
-        source={{ uri:  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" }}  // Video source
-        style={{ width: "200px", height: "300px", borderRadius: 20 }}  // Styling
-        resizeMode="contain"  // Correct resizeMode usage
-        controls
-        
-    // Callback when video cannot be loaded              
-         
-        />
-        </View>
+          <View style={{ width: "200px", height: "300px", borderRadius: 20 }}>
+            <VideoView
+              style={styles.video}
+              player={player}
+              allowsFullscreen
+              allowsPictureInPicture
+              resizeMode="contain"
+            />
+          </View>
         </>
       ) : (
         <TouchableOpacity
           className="relative flex justify-center items-center"
           activeOpacity={0.7}
-          onPress={() => setPlay(true)}
+          onPress={() => setActiveVideoId(item.$id)}
         >
           <ImageBackground
             source={{
@@ -87,7 +93,7 @@ const TrendingItem = ({ activeItem, item }) => {
 
 const Trending = ({ posts }) => {
   const [activeItem, setActiveItem] = useState(posts[0]);
-
+  const [activeVideoId, setActiveVideoId] = useState(null); 
   // Use useCallback to avoid re-creation of the function on every render
   const viewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -95,13 +101,23 @@ const Trending = ({ posts }) => {
     }
   }, []);
 
+  const handleOutsideClick = () => {
+    if (activeVideoId) {
+      setActiveVideoId(null); // Stop any active video
+    }
+  };
   return (
+    <TouchableWithoutFeedback onPress={handleOutsideClick}>
     <FlatList
+    onPress={handleOutsideClick}
       data={posts}
       horizontal
       keyExtractor={(item) => item.$id}
       renderItem={({ item }) => (
-        <TrendingItem activeItem={activeItem} item={item} />
+        <TrendingItem activeItem={activeItem}
+        activeVideoId={activeVideoId} // Pass active video ID
+        setActiveVideoId={setActiveVideoId} // Pass setter to update active video
+         item={item} />
       )}
       onViewableItemsChanged={viewableItemsChanged}
       viewabilityConfig={{
@@ -109,7 +125,23 @@ const Trending = ({ posts }) => {
       }}
       contentOffset={{ x: 170 }}
     />
+    </TouchableWithoutFeedback>
   );
 };
 
 export default Trending;
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 50,
+  },
+  video: {
+    width: 200,
+    height: 300,
+    borderRadius: 20,
+  },
+});
