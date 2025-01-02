@@ -29,7 +29,7 @@ const Profile = () => {
 
   const { user, setUser, setIsLoggedIn } = context;
   const { query } = useLocalSearchParams();
-  const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
+  const { data: posts, refetch } = useAppwrite(() => getUserPosts(user.$id));
 
   const logout = async() => {
    await signOutUser();
@@ -37,6 +37,17 @@ const Profile = () => {
    setIsLoggedIn(false)
 
    router.replace('/sign-in')
+  };
+
+
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    // fetch data
+    await refetch();
+    setRefreshing(false);
   };
 
   return (
@@ -102,6 +113,10 @@ const Profile = () => {
             buttonAction="/create"
           />
         )}
+
+          refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
       />
     </SafeAreaView>
   );

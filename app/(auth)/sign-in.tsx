@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, Alert } from "react-native";
+import { View, Text, ScrollView, Image, Alert, Pressable } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
@@ -40,7 +40,7 @@ const signIn = () => {
       Alert.alert("Success", "Logged in successfully");
       router.replace("/home");
     } catch (err: any) {
-      Alert.alert("Error", err.message);
+      // Alert.alert("Error", err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -50,11 +50,13 @@ const signIn = () => {
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
         <View className="w-full justify-center min-h-[85vh] px-4 my-6">
+        <Pressable onPress={()=>router.replace("/")} >
           <Image
             source={images.logo}
             resizeMode="contain"
             className="w-[115px] h-[35px]"
           />
+           </Pressable>
           <Text className="text-2xl text-white text-semibold mt-10 font-psemibold">
             Log in to Aora
           </Text>

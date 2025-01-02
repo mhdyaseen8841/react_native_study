@@ -11,22 +11,28 @@
       "supportsTablet": true,
       "package": "com.selfhexameta.aora",
       "splash": {
-        "backgroundColor": "#161622", 
-        "image": "./assets/images/logo.png", 
-        "resizeMode": "contain",  
-        "tabletImage": "./assets/images/logo.png" 
-      }
+        "backgroundColor": "#161622",
+        "image": "./assets/images/logo.png",
+        "resizeMode": "contain",
+        "tabletImage": "./assets/images/logo.png"
+      },
+      "bundleIdentifier": "com.mhdyaseen8841.myapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-small.png",
-        "backgroundColor": "#161622"  
+        "backgroundColor": "#161622"
       },
       "splash": {
-        "backgroundColor": "#161622", 
-        "image": "./assets/images/logo.png",  
-        "resizeMode": "contain"  
-      }
+        "backgroundColor": "#161622",
+        "image": "./assets/images/logo.png",
+        "resizeMode": "contain"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "package": "com.mhdyaseen8841.myapp"
     },
     "web": {
       "bundler": "metro",
@@ -38,8 +44,8 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo.png",  
-          "resizeMode": "contain",  
+          "image": "./assets/images/logo.png",
+          "resizeMode": "contain",
           "backgroundColor": "#161622"
         }
       ],
@@ -59,6 +65,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "52d334fe-5ceb-4774-aa3d-43d161d752c8"
+      }
     }
   }
 }

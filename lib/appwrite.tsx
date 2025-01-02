@@ -9,12 +9,12 @@ import {
 } from "react-native-appwrite";
 export const config = {
   endpoint: "https://cloud.appwrite.io/v1",
-  platform: "com.selfhexameta.aora",
-  projectId: "676d58e0002501a0d69d",
-  databaseId: "676d5a14002972bb34e9",
-  userCollectionId: "676d5a39000b7c11de3c",
-  videoCollectionId: "676d5a580039705fd668",
-  storageId: "676d5b77001b8f19eb47",
+  platform: "com.yaseen.aora",
+  projectId: "677696ef003daefddd8c",
+  databaseId: "67769752002db1347728",
+  userCollectionId: "677697cb0023c11eb514",
+  videoCollectionId: "6776976f001f3a922568",
+  storageId: "677698c50010a82173e5",
 };
 
 const client = new Client();
@@ -101,7 +101,7 @@ export async function getCurrentUser() {
 
     return currentUser.documents[0];
   } catch (err) {
-    console.error("Error in getUser:", err);
+    // console.error("Error in getUser:", err);
     throw new Error((err as Error)?.message || "An unexpected error occurred");
   }
 }
@@ -158,6 +158,7 @@ export async function searchPosts(query: any) {
 // Get video posts created by user
 export async function getUserPosts(userId:any) {
   try {
+    console.log("heyyyyy")
     const posts = await databases.listDocuments(
       config.databaseId,
       config.videoCollectionId,
